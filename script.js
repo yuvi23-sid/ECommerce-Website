@@ -6,13 +6,20 @@ document.addEventListener("DOMContentLoaded", function() {
     let productsData = []; // To store fetched products data
 
     // Fetch data from API
-    fetch("https://fakestoreapi.com/products")
+    function fetchAndDisplay(){
+        fetch("https://fakestoreapi.com/products")
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             productsData = data;
+            
             renderProducts(productsData);
         })
         .catch(error => console.error("Error fetching data:", error));
+    }
+
+    fetchAndDisplay()
+    
 
     // Render products on the page
     function renderProducts(products) {
@@ -34,10 +41,12 @@ document.addEventListener("DOMContentLoaded", function() {
     // Filter products by category  
     categoryFilter.addEventListener("change", function() {
         const category = categoryFilter.value.toLowerCase();
+        console.log(category);
         let filteredProducts = productsData;
         if (category !== "all") {
-            filteredProducts = productsData.filter(product => product.category.toLowerCase().includes(category));
-        }
+            filteredProducts = productsData.filter(product => product.category === category);
+            console.log(filteredProducts)
+        }   
         renderProducts(filteredProducts);
     });
 
@@ -53,3 +62,4 @@ document.addEventListener("DOMContentLoaded", function() {
         renderProducts(sortedProducts);
     });
 });
+
